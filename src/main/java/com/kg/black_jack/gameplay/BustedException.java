@@ -11,4 +11,7 @@ public class BustedException extends Exception {
         this.cards = new TreeSet<>(cards);
     }
 
+    public Set<Card> getCards() {
+        return cards;
+    }
 }
