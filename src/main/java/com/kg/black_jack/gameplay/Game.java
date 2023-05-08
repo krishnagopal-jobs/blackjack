@@ -4,14 +4,14 @@ import com.kg.black_jack.Hand;
 import com.kg.black_jack.dealer.Dealer;
 import com.kg.black_jack.player.Player;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Game {
+public class Game implements DealerStrategy, PlayerStrategy, OpeningStrategy {
 
     private final BlackJackBufferCards bufferCards;
 
-    private final Set<Player> players = new HashSet<>();
+    private final List<Player> players = new ArrayList<>();
 
     private final Dealer dealer;
 
@@ -25,27 +25,6 @@ public class Game {
         players.add(player);
     }
 
-    public void initialDeal() {
-        try {
-            for (var player : players) {
-                player.startPlay();
-                player.addCard(bufferCards.dealACard());
-            }
-            dealer.startPlay();
-            dealer.addClosedCard(bufferCards.dealACard());
-            for (var player : players) {
-                player.addCard(bufferCards.dealACard());
-            }
-            dealer.addCard(bufferCards.dealACard());
-        } catch (BustedException e) {
-            throw new RuntimeException(e);
-        }
-        for (var player : players) {
-            System.out.println(player);
-        }
-
-        System.out.println(dealer);
-    }
 
     public void addNonInitialCardsToDealer() throws BustedException {
         while (dealer.getTotalValue() <= 16) {
@@ -54,42 +33,16 @@ public class Game {
     }
 
     public void play() {
-        initialDeal();
+        openThePlay();
         for (var player : players) {
-            player_making_decision:
-            while (player.getTotalValue() < 21) {
-                switch (player.makeADecision()) {
-                    case HIT -> {
-                        try {
-                            player.addCard(bufferCards.dealACard());
-                        } catch (BustedException e) {
-                            System.out.printf("Player %s is busted with total %s.%n", player.getName(), player.getTotalValue());
-                        }
-                        System.out.println(player);
-                    }
-                    case STAND -> {
-                        break player_making_decision;
-                    }
-                    case WITHDRAW -> {
-                        player.withdrawFromPlay();
-                        break player_making_decision;
-                    }
-                }
-            }
+            dealWithAPlayer(player);
         }
-        try {
-            dealer.openTheClosedCard();
-            System.out.println(dealer);
-            addNonInitialCardsToDealer();
-            System.out.println(dealer);
-        } catch (BustedException e) {
-            System.out.println("Dealer is busted.");
-        }
+        dealWithADealer();
 
         var dealerCount = dealer.getTotalValue();
         for (var player : players) {
             var playerTotalValue = player.getTotalValue();
-            var playerLost = player.getState() == Hand.State.BUSTED ||
+            var playerLost = player.getState() == Hand.State.BUSTED || player.getState() == Hand.State.WITHDRAWN ||
                     (dealer.getState() != Hand.State.BUSTED && playerTotalValue < dealerCount);
             if (!playerLost && playerTotalValue > dealerCount) {
                 System.out.printf("Player %s with count: %s won.%n", player.getName(), player.getTotalValue());
@@ -102,4 +55,17 @@ public class Game {
 
     }
 
+    @Override
+    public BlackJackBufferCards getBufferCards() {
+        return this.bufferCards;
+    }
+
+    @Override
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
+    public Dealer getDealer() {
+        return this.dealer;
+    }
 }

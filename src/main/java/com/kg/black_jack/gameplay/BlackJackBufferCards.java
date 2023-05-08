@@ -1,6 +1,7 @@
 package com.kg.black_jack.gameplay;
 
 import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class BlackJackBufferCards {
@@ -24,7 +25,15 @@ public class BlackJackBufferCards {
     }
 
     public Card dealACard() {
-        return cards.pop();
+        try {
+            return cards.pop();
+        } catch (EmptyStackException e) {
+            addADeck();
+            addADeck();
+            addADeck();
+            addADeck();
+            return cards.pop();
+        }
     }
 
     public String toString() {

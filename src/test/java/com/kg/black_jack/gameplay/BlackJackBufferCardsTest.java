@@ -1,14 +1,18 @@
 package com.kg.black_jack.gameplay;
 
+import mockit.integration.junit5.JMockitExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(JMockitExtension.class)
 class BlackJackBufferCardsTest {
+
     private BlackJackBufferCards blackJackBufferCards;
 
     @BeforeEach
@@ -17,34 +21,55 @@ class BlackJackBufferCardsTest {
     }
 
     @Test
-    void testInitialBufferSize() {
-        // There are 52 cards in a deck, and we add 4 decks in the constructor
-        assertEquals(52 * 4, blackJackBufferCards.cards.size());
+    void testInitialDeckSize() {
+        int initialSize = blackJackBufferCards.cards.size();
+        assertEquals(208, initialSize);
     }
 
     @Test
     void testAddADeck() {
         blackJackBufferCards.addADeck();
-        // There are now 5 decks in the buffer
-        assertEquals(52 * 5, blackJackBufferCards.cards.size());
+        int newSize = blackJackBufferCards.cards.size();
+        assertEquals(260, newSize);
     }
 
     @Test
     void testDealACard() {
-        Card dealtCard = blackJackBufferCards.dealACard();
-        assertNotNull(dealtCard);
-        // There are now 52 * 4 - 1 cards left in the buffer
-        assertEquals(52 * 4 - 1, blackJackBufferCards.cards.size());
+        Card card = blackJackBufferCards.dealACard();
+        assertNotNull(card);
+        assertEquals(207, blackJackBufferCards.cards.size());
     }
 
     @Test
-    void testUniqueCards() {
-        Set<Card> uniqueCards = new HashSet<>();
-        int initialBufferSize = blackJackBufferCards.cards.size();
-        for (int i = 0; i < initialBufferSize; i++) {
-            uniqueCards.add(blackJackBufferCards.dealACard());
+    void testDealAllCards() {
+        Set<Card> dealtCards = new HashSet<>();
+
+        for (int i = 0; i < 208; i++) {
+            Card card = blackJackBufferCards.dealACard();
+            assertNotNull(card);
+            dealtCards.add(card);
         }
-        // Expect 52 unique cards (each card in a deck is unique)
-        assertEquals(52, uniqueCards.size());
+
+        assertEquals(0, blackJackBufferCards.cards.size());
+        assertEquals(52, dealtCards.size());
+    }
+
+    @Test
+    void testRefillDecks() {
+        for (int i = 0; i < 208; i++) {
+            blackJackBufferCards.dealACard();
+        }
+        assertEquals(0, blackJackBufferCards.cards.size());
+
+        Card card = blackJackBufferCards.dealACard();
+        assertNotNull(card);
+        assertEquals(207, blackJackBufferCards.cards.size());
+    }
+
+    @Test
+    void testToString() {
+        String cardsString = blackJackBufferCards.toString();
+        assertNotNull(cardsString);
+        assertFalse(cardsString.isEmpty());
     }
 }
