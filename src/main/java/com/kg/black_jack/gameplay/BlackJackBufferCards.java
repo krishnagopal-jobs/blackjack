@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class BlackJackBufferCards {
 
-    private final Stack<Card> cards = new Stack<>();
+    final Stack<Card> cards = new Stack<>();
 
     public BlackJackBufferCards() {
         addADeck();

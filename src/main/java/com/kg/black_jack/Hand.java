@@ -3,20 +3,20 @@ package com.kg.black_jack;
 import com.kg.black_jack.gameplay.BustedException;
 import com.kg.black_jack.gameplay.Card;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Hand {
 
-    private final Set<Card> cards = new TreeSet<>();
+    private final List<Card> cards = new ArrayList<>();
     protected State state;
 
     public State getState() {
         return state;
     }
 
-    protected Set<Card> getCards() {
+    protected List<Card> getCards() {
         return cards;
     }
 

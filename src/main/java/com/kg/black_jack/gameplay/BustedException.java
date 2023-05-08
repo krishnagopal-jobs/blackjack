@@ -1,17 +1,17 @@
 package com.kg.black_jack.gameplay;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BustedException extends Exception {
 
-    private final Set<Card> cards;
+    private final List<Card> cards;
 
-    public BustedException(Set<Card> cards) {
-        this.cards = new TreeSet<>(cards);
+    public BustedException(List<Card> cards) {
+        this.cards = new ArrayList<>(cards);
     }
 
-    public Set<Card> getCards() {
+    public List<Card> getCards() {
         return cards;
     }
 }
