@@ -1,6 +1,8 @@
 # blackjack
 
-Check out the project. In the base of the project run the following commands to play blackjack.
+git pull the project. 
+
+In the base of the project run the following commands to play blackjack.
 
 Use Java 20 version
 
