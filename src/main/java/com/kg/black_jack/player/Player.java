@@ -28,7 +28,7 @@ public class Player extends Hand {
     }
 
     public Action makeADecision() {
-        System.out.print(getName() + ", Do you want to be hit(H) or to stand(S): ");
+        System.out.print(getName() + ", Do you want to be hit(H) or to stand(S) or to withdraw(W): ");
         while (true) {
             switch (scanner.next().toUpperCase().trim()) {
                 case "H" -> {
