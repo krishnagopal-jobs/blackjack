@@ -37,7 +37,7 @@ class MainTest {
 
     @Test
     void testMain() {
-        final String input = "S\nW\nW\nH\nH\nH\n";
+        final String input = "3\nPlayer1\nPlayer2\nPlayer3\nS\nW\nW\nH\nH\nH\n";
         provideInput(input);
 
         Main.main(new String[]{});

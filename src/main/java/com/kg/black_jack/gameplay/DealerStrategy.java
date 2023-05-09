@@ -11,7 +11,7 @@ public interface DealerStrategy {
             addNonInitialCardsToDealer();
             System.out.println(getDealer());
         } catch (BustedException e) {
-            System.out.println("Dealer is busted.");
+            System.out.printf("Dealer %s is busted with count %d.%n", getDealer(), getDealer().getTotalValue());
         }
     }
 

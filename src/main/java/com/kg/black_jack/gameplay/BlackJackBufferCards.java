@@ -8,11 +8,17 @@ public class BlackJackBufferCards {
 
     final Stack<Card> cards = new Stack<>();
 
+    private final int numberOfDecks;
+
     public BlackJackBufferCards() {
-        addADeck();
-        addADeck();
-        addADeck();
-        addADeck();
+        this(4);
+    }
+
+    public BlackJackBufferCards(int numberOfDecks) {
+        this.numberOfDecks = numberOfDecks;
+        for (int i =0; i < this.numberOfDecks ; i++) {
+            addADeck();
+        }
     }
 
     public void addADeck() {
@@ -28,10 +34,9 @@ public class BlackJackBufferCards {
         try {
             return cards.pop();
         } catch (EmptyStackException e) {
-            addADeck();
-            addADeck();
-            addADeck();
-            addADeck();
+            for (int i =0; i < this.numberOfDecks ; i++) {
+                addADeck();
+            }
             return cards.pop();
         }
     }
