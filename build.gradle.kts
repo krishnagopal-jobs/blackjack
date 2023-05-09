@@ -1,14 +1,11 @@
-//import org.gradle.api.artifacts.Configuration
+import java.math.BigDecimal;
 
 plugins {
     java
     jacoco
+    application
 }
-//
-//val testImplementationWithResolve: Configuration = configurations.create("testImplementationWithResolve") {
-//    isCanBeResolved = true
-//    extendsFrom(configurations.getByName("testImplementation"))
-//}
+
 group = "org.com.kg.black_jack"
 version = "1.0-SNAPSHOT"
 
@@ -28,6 +25,14 @@ tasks.test {
     jvmArgs("-javaagent:" + configurations.testRuntimeClasspath.get().find { it.name.contains("jmockit") }?.absolutePath);
 }
 
+tasks {
+    jar {
+        manifest {
+            attributes["Main-Class"] = "com.kg.Main"
+        }
+    }
+}
+
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     finalizedBy("jacocoTestReport")
@@ -37,12 +42,27 @@ configure<JacocoPluginExtension> {
     toolVersion = "0.8.7" // Specify the desired JaCoCo version
 }
 
+application {
+    mainClass.set("com.kg.Main")
+}
+
 tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn("test")
     reports {
         xml.required.set(true)
         csv.required.set(false)
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+}
+
+tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    dependsOn("jacocoTestReport")
+    violationRules {
+        rule {
+            limit {
+                minimum = BigDecimal.valueOf(0.8) // Set the desired minimum coverage percentage (e.g., 80%)
+            }
+        }
     }
 }
 
