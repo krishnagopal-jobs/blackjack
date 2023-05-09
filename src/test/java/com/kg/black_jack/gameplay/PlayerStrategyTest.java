@@ -59,11 +59,13 @@ class PlayerStrategyTest {
                 H
                 H
                 H
+                H
+                H
                 """).getBytes());
         var player = new Player("TestPlayer", new Scanner(in));
         player.startPlay();
         playerStrategy.dealWithAPlayer(player);
-        assertTrue (player.getTotalValue() > 21, () -> player.getTotalValue() +"is the total count.");
+        assertTrue (player.getTotalValue() > 21, () -> player.getTotalValue() +" is the total count.");
         assertEquals(Hand.State.BUSTED, player.getState());
     }
 
