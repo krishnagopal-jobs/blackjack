@@ -2,6 +2,7 @@
 
 plugins {
     java
+    jacoco
 }
 //
 //val testImplementationWithResolve: Configuration = configurations.create("testImplementationWithResolve") {
@@ -23,6 +24,26 @@ dependencies {
 }
 
 tasks.test {
-    useJUnitPlatform()
+    useJUnitPlatform();
     jvmArgs("-javaagent:" + configurations.testRuntimeClasspath.get().find { it.name.contains("jmockit") }?.absolutePath);
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    finalizedBy("jacocoTestReport")
+}
+
+configure<JacocoPluginExtension> {
+    toolVersion = "0.8.7" // Specify the desired JaCoCo version
+}
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+    dependsOn("test")
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+}
+
+

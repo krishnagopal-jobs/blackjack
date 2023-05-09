@@ -4,11 +4,17 @@ import com.kg.black_jack.Hand;
 import com.kg.black_jack.gameplay.BustedException;
 import com.kg.black_jack.gameplay.Card;
 
+import java.util.List;
+
 public class Dealer extends Hand {
 
-    private Card closedCard;
+    Card closedCard;
 
     public Dealer() {
+    }
+
+    protected List<Card> getCards() {
+        return super.getCards();
     }
 
     public void addClosedCard(Card card) {

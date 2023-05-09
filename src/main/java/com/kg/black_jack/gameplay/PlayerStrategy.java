@@ -1,5 +1,6 @@
 package com.kg.black_jack.gameplay;
 
+import com.kg.black_jack.Hand;
 import com.kg.black_jack.player.Player;
 
 import static java.util.Objects.requireNonNull;
@@ -10,6 +11,7 @@ public interface PlayerStrategy {
 
     default void dealWithAPlayer(Player player) {
         requireNonNull(player);
+        assert player.getState() == Hand.State.IN_PLAY: "The player must be in IN_PLAY";
         while (player.getTotalValue() < 21) {
             switch (player.makeADecision()) {
                 case HIT -> {

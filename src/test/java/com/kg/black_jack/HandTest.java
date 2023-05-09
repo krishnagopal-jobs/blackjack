@@ -45,6 +45,13 @@ class HandTest {
     }
 
     @Test
+    void testAddCardNull() throws BustedException {
+        hand.startPlay();
+        hand.addCard(null);
+        assertTrue(hand.getCards().isEmpty());
+    }
+
+    @Test
     void testAddCardBusted() {
         hand.startPlay();
         assertEquals(hand.state, Hand.State.IN_PLAY);
@@ -66,9 +73,43 @@ class HandTest {
     @Test
     void testGetTotalValue() throws BustedException {
         hand.startPlay();
+        hand.addCard(new Card(Card.Rank.ACE, Card.Suit.CLUBS));
         hand.addCard(new Card(Card.Rank.TWO, Card.Suit.CLUBS));
-        hand.addCard(new Card(Card.Rank.FIVE, Card.Suit.DIAMONDS));
-        assertEquals(7, hand.getTotalValue());
+        hand.addCard(new Card(Card.Rank.THREE, Card.Suit.CLUBS));
+        assertEquals(16, hand.getTotalValue());
+
+    }
+
+    @Test
+    void testGetTotalValue2() throws BustedException {
+        hand.startPlay();
+        hand.addCard(new Card(Card.Rank.FOUR, Card.Suit.CLUBS));
+        hand.addCard(new Card(Card.Rank.FIVE, Card.Suit.CLUBS));
+        hand.addCard(new Card(Card.Rank.SIX, Card.Suit.CLUBS));
+        assertEquals(15, hand.getTotalValue());
+    }
+    @Test
+    void testGetTotalValue3() throws BustedException {
+        hand.startPlay();
+        hand.addCard(new Card(Card.Rank.SEVEN, Card.Suit.CLUBS));
+        hand.addCard(new Card(Card.Rank.EIGHT, Card.Suit.CLUBS));
+        assertEquals(15, hand.getTotalValue());
+    }
+
+    @Test
+    void testGetTotalValue4() throws BustedException {
+        hand.startPlay();
+        hand.addCard(new Card(Card.Rank.NINE, Card.Suit.CLUBS));
+        hand.addCard(new Card(Card.Rank.JACK, Card.Suit.CLUBS));
+        assertEquals(19, hand.getTotalValue());
+    }
+
+    @Test
+    void testGetTotalValue5() throws BustedException {
+        hand.startPlay();
+        hand.addCard(new Card(Card.Rank.QUEEN, Card.Suit.CLUBS));
+        hand.addCard(new Card(Card.Rank.KING, Card.Suit.CLUBS));
+        assertEquals(20, hand.getTotalValue());
     }
 
     @Test

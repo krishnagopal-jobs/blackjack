@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.util.Objects.isNull;
+
 public abstract class Hand {
 
     private final List<Card> cards = new ArrayList<>();
@@ -30,6 +32,9 @@ public abstract class Hand {
     }
 
     public void addCard(Card card) throws BustedException {
+        if(isNull(card)) {
+            return;
+        }
         getCards().add(card);
         if (getTotalValue() > 21) {
             this.state = State.BUSTED;

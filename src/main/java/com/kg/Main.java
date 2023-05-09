@@ -16,9 +16,9 @@ public class Main {
         BlackJackBufferCards bufferCards = new BlackJackBufferCards();
         Dealer dealer = new Dealer();
         Game game = new Game(bufferCards, dealer);
-        game.addPlayer(new Player("P1", scanner));
-        game.addPlayer(new Player("P2", scanner));
-        game.addPlayer(new Player("P3", scanner));
+        game.addPlayer(new Player("Player1", scanner));
+        game.addPlayer(new Player("Player2", scanner));
+        game.addPlayer(new Player("Player3", scanner));
         game.play();
 
     }
