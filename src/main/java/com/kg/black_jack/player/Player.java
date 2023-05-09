@@ -40,7 +40,7 @@ public class Player extends Hand {
                 case "W" -> {
                     return Action.WITHDRAW;
                 }
-                default -> System.out.println("You must enter H or S");
+                default -> System.out.println("You must enter H or S or W");
             }
         }
     }
